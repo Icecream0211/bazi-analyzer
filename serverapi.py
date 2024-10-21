@@ -42,20 +42,8 @@ def filter_strings(strings):
     return [s for s in strings if s.strip() and not s.strip().startswith(('-', '='))]
 
 
-@app.post("/calculate_bazi_need")
-async def bazi_need(
-    year: int = Form(...),
-    month: int = Form(...),
-    day: int = Form(...),
-    hour: int = Form(...),
-    gender: str = Form(...),
-    city: str = Form(...)):
-    print(year,month,day,hour,gender,city)
-    result = get_bazi_need(year,month,day,hour,True,False,True if gender == "男" else False)
-    return result
 
-
-
+## 基础八字分析
 @app.post("/bazi_ai_base_analysis")
 async def bazi_need(
     year: int = Form(...),
@@ -71,7 +59,79 @@ async def bazi_need(
     interpreted_result = bazi_base_ai_analysis(result) 
     print(interpreted_result)
     return interpreted_result
- 
+
+
+## 事业分析
+@app.post("/bazi_ai_career_analysis")
+async def bazi_need(
+    year: int = Form(...),
+    month: int = Form(...),
+    day: int = Form(...),
+    hour: int = Form(...),
+    gender: str = Form(...),
+    city: str = Form(...)):
+    print(year,month,day,hour,gender,city)
+
+    result = get_bazi_need(year,month,day,hour,True,False,True if gender == "男" else False)
+    print(json.dumps(result,ensure_ascii=False))
+    interpreted_result = bazi_career_ai_analysis(result)
+    print(interpreted_result)
+    return interpreted_result
+
+
+## 大运分析
+@app.post("/bazi_ai_dayun_analysis")
+async def bazi_need(
+    year: int = Form(...),
+    month: int = Form(...),
+    day: int = Form(...),
+    hour: int = Form(...),
+    gender: str = Form(...),
+    city: str = Form(...)):
+    print(year,month,day,hour,gender,city)
+
+    result = get_bazi_need(year,month,day,hour,True,False,True if gender == "男" else False)
+    print(json.dumps(result,ensure_ascii=False))
+    interpreted_result = bazi_dayun_ai_analysis(result)
+    print(interpreted_result)
+    return interpreted_result
+
+## 爱情分析
+@app.post("/bazi_ai_love_analysis")
+async def bazi_need(
+    year: int = Form(...),
+    month: int = Form(...),
+    day: int = Form(...),
+    hour: int = Form(...),
+    gender: str = Form(...),
+    city: str = Form(...)):
+    print(year,month,day,hour,gender,city)
+
+    result = get_bazi_need(year,month,day,hour,True,False,True if gender == "男" else False)
+    print(json.dumps(result,ensure_ascii=False))
+    interpreted_result = bazi_love_ai_analysis(result)
+    print(interpreted_result)
+    return interpreted_result
+
+
+## 喜忌分析
+@app.post("/bazi_ai_xiji_analysis")
+async def bazi_need(
+    year: int = Form(...),
+    month: int = Form(...),
+    day: int = Form(...),
+    hour: int = Form(...),
+    gender: str = Form(...),
+    city: str = Form(...)):
+    print(year,month,day,hour,gender,city)
+
+    result = get_bazi_need(year,month,day,hour,True,False,True if gender == "男" else False)
+    print(json.dumps(result,ensure_ascii=False))
+    interpreted_result = bazi_xiji_ai_analysis(result)
+    print(interpreted_result)
+    return interpreted_result
+
+
 
  
 ## 都是阳历
@@ -141,10 +201,27 @@ async def calculate_bazi(
     return  {i: value for i, value in enumerate(cleaned_str)}
     #return output
 
+
+
+
+@app.post("/calculate_bazi_need")
+async def bazi_need(
+    year: int = Form(...),
+    month: int = Form(...),
+    day: int = Form(...),
+    hour: int = Form(...),
+    gender: str = Form(...),
+    city: str = Form(...)):
+    print(year,month,day,hour,gender,city)
+    result = get_bazi_need(year,month,day,hour,True,False,True if gender == "男" else False)
+    return result
+
+
+
+
 # 在本地启动服务
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
-
 
 
