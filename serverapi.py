@@ -3,9 +3,31 @@ from pydantic import BaseModel
 from lunarcalendar import Converter, Solar, Lunar
 import subprocess
 from bazi_need import get_bazi_need
-
+from fastapi.middleware.cors import CORSMiddleware
+from ai_models import GLM4Model
+import json
+from bazi_ai_base_analysis import bazi_base_ai_analysis
+from bazi_ai_dayun_analysis import bazi_dayun_ai_analysis
+from bazi_ai_xiji_analysis import bazi_xiji_ai_analysis
+from bazi_ai_career_analysis import bazi_career_ai_analysis
+from bazi_ai_love_analysis import bazi_love_ai_analysis
 
 app = FastAPI()
+
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:8000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class BaziRequest(BaseModel):
     year: int
@@ -31,6 +53,25 @@ async def bazi_need(
     print(year,month,day,hour,gender,city)
     result = get_bazi_need(year,month,day,hour,True,False,True if gender == "男" else False)
     return result
+
+
+
+@app.post("/bazi_ai_base_analysis")
+async def bazi_need(
+    year: int = Form(...),
+    month: int = Form(...),
+    day: int = Form(...),
+    hour: int = Form(...),
+    gender: str = Form(...),
+    city: str = Form(...)):
+    print(year,month,day,hour,gender,city)
+
+    result = get_bazi_need(year,month,day,hour,True,False,True if gender == "男" else False)
+    print(json.dumps(result,ensure_ascii=False))
+    interpreted_result = bazi_base_ai_analysis(result) 
+    print(interpreted_result)
+    return interpreted_result
+ 
 
  
 ## 都是阳历
