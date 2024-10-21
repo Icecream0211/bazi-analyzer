@@ -280,10 +280,10 @@ print("-"*120)
 out = ''
 for item in zhi_3hes:
     out = out + "{}:{}  ".format(item, zhi_3hes[item])
-print('\033[1;36;40m' + ' '.join(list(gans)), ' '*5, ' '.join(list(gan_shens)) + '\033[0m',' '*5, out,)
+print('' + ' '.join(list(gans)), ' '*5, ' '.join(list(gan_shens)) + '',' '*5, out,)
 out = ''
 
-print('\033[1;36;40m' + ' '.join(list(zhis)), ' '*5, ' '.join(list(zhi_shens)) + '\033[0m', ' '*5, out, "解读:钉ding或v信pythontesting")
+print('' + ' '.join(list(zhis)), ' '*5, ' '.join(list(zhi_shens)) + '', ' '*5, out, "")
 print("-"*120)
 print("{1:{0}^15s}{2:{0}^15s}{3:{0}^15s}{4:{0}^15s}".format(chr(12288), '【年】{}:{}{}{}'.format(temps[gans.year],temps[zhis.year],ten_deities[gans.year].inverse['建'], gan_zhi_he(zhus[0])), 
     '【月】{}:{}{}{}'.format(temps[gans.month],temps[zhis.month], ten_deities[gans.month].inverse['建'], gan_zhi_he(zhus[1])),
@@ -292,7 +292,7 @@ print("{1:{0}^15s}{2:{0}^15s}{3:{0}^15s}{4:{0}^15s}".format(chr(12288), '【年�
 print("-"*120)
 
 
-print("\033[1;36;40m{1:{0}<15s}{2:{0}<15s}{3:{0}<15s}{4:{0}<15s}\033[0m".format(
+print("{1:{0}<15s}{2:{0}<15s}{3:{0}<15s}{4:{0}<15s}".format(
     chr(12288),
     '{}{}{}【{}】{}'.format(
         gans.year, yinyang(gans.year), gan5[gans.year], ten_deities[me][gans.year], check_gan(gans.year, gans)),
@@ -302,7 +302,7 @@ print("\033[1;36;40m{1:{0}<15s}{2:{0}<15s}{3:{0}<15s}{4:{0}<15s}\033[0m".format(
     '{}{}{}【{}】{}'.format(gans.time, yinyang(gans.time), gan5[gans.time], ten_deities[me][gans.time], check_gan(gans.time, gans)),
 ))
 
-print("\033[1;36;40m{1:{0}<15s}{2:{0}<15s}{3:{0}<15s}{4:{0}<15s}\033[0m".format(
+print("{1:{0}<15s}{2:{0}<15s}{3:{0}<15s}{4:{0}<15s}".format(
     chr(12288),
     "{}{}{}【{}】{}".format(
         zhis.year, yinyang(zhis.year), ten_deities[me][zhis.year],
@@ -325,7 +325,7 @@ for seq, item in enumerate(zhis):
 
     for gan in zhi5[item]:
         out = out + "{}{}{}　".format(gan, gan5[gan], ten_deities[me][gan])
-    print("\033[1;36;40m{1:{0}<15s}\033[0m".format(chr(12288), out.rstrip('　')), end='')
+    print("{1:{0}<15s}".format(chr(12288), out.rstrip('　')), end='')
 
 print()
 # 输出地支关系
@@ -345,7 +345,7 @@ for seq, item in enumerate(zhis):
                 if type_ not in ('冲','暗'):
                     output += zhi
         output = output.lstrip('　')
-    print("\033[1;36;40m{1:{0}<15s}\033[0m".format(chr(12288), output), end='')
+    print("{1:{0}<15s}".format(chr(12288), output), end='')
 
 print()
 
@@ -365,14 +365,14 @@ for seq, item in enumerate(zhis):
                     flag = True
                 output += zhi
     output = output.lstrip('　')
-    print("\033[1;36;40m{1:{0}<15s}\033[0m".format(chr(12288), output), end='')
+    print("{1:{0}<15s}".format(chr(12288), output), end='')
 
 print()
 
 # 输出根
 for  item in gans:
     output = output.lstrip('　')
-    print("\033[1;36;40m{1:{0}<15s}\033[0m".format(chr(12288), get_gen(item, zhis)), end='')
+    print("{1:{0}<15s}".format(chr(12288), get_gen(item, zhis)), end='')
 
 print()
 
@@ -596,7 +596,7 @@ print()
 # 计算上运时间，有年份时才适用
 
 temps_scores = temps[gans.year] + temps[gans.month] + temps[me] + temps[gans.time] + temps[zhis.year] + temps[zhis.month]*2 + temps[zhis.day] + temps[zhis.time]
-print("\033[1;36;40m五行分数", scores, '  八字强弱：', strong, "通常>29为强，需要参考月份、坐支等", "weak:", weak)
+print("五行分数", scores, '  八字强弱：', strong, "通常>29为强，需要参考月份、坐支等", "weak:", weak)
 
 gongs = get_gong(zhis)
 zhis_g = set(zhis) | set(gongs)
@@ -613,7 +613,7 @@ for item in zhi_huis:
         print("三会局", item)
         jus.append(ju[ten_deities[me].inverse[zhi_huis[item]]])
 
-print("湿度分数", temps_scores,"正为暖燥，负为寒湿，正常区间[-6,6] 拱：",  get_gong(zhis), "\033[0m")
+print("湿度分数", temps_scores,"正为暖燥，负为寒湿，正常区间[-6,6] 拱：",  get_gong(zhis), "")
 for item in gan_scores:  
     print("{}[{}]-{} ".format(
         item, ten_deities[me][item], gan_scores[item]),  end='  ')    

@@ -1,0 +1,7 @@
+bidict 
+lunar_python 
+colorama
+fastapi
+lunarcalendar
+python-multipart
+uvicorn
