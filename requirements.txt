@@ -5,3 +5,6 @@ fastapi
 lunarcalendar
 python-multipart
 uvicorn
+zhipuai
+anthropic
+openai
