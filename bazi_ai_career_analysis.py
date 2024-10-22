@@ -100,5 +100,5 @@ def bazi_career_ai_analysis_stream(result):
     print()
     print(system_prompt)
     print('-'*100)
-    for chunk in glm4_model.stream_chat(prompt, system_prompt):
+    for chunk in glm4_model.stream_chat(prompt_format+prompt, system_prompt):
         yield chunk

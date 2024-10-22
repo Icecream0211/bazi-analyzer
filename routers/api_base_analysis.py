@@ -26,5 +26,4 @@ async def bazi_base_ai_analysis_stream_endpoint(
     gender: str = Form(...),
     city: str = Form(...)):
     result = get_bazi_need(year, month, day, hour, True, False, True if gender == "男" else False)
-    for chunk in bazi_base_ai_analysis_stream(result):
-        yield chunk
+    return StreamingResponse(bazi_base_ai_analysis_stream(result), media_type="text/event-stream")

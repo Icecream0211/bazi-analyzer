@@ -77,7 +77,7 @@ def bazi_xiji_ai_analysis(result):
     print()
     print(systemPrompt)
     print('-'*100)
-    interpreted_result = glm4_model.chat(prompt,systemPrompt)
+    interpreted_result = glm4_model.chat(prompt1+prompt,systemPrompt)
     return interpreted_result
 
 
@@ -154,5 +154,5 @@ def bazi_xiji_ai_analysis_stream(result):
     print()
     print(systemPrompt)
     print('-'*100)
-    for chunk in glm4_model.stream_chat(prompt, systemPrompt):
+    for chunk in glm4_model.stream_chat(prompt1+prompt, systemPrompt):
         yield chunk

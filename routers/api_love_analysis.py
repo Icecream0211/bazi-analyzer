@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Form
 from bazi_need import get_bazi_need
 from bazi_ai_love_analysis import bazi_love_ai_analysis, bazi_love_ai_analysis_stream
+from fastapi.responses import StreamingResponse
+
 
 router = APIRouter()
 
@@ -26,5 +28,4 @@ async def bazi_love_ai_analysis_stream_endpoint(
     gender: str = Form(...),
     city: str = Form(...)):
     result = get_bazi_need(year, month, day, hour, True, False, True if gender == "男" else False)
-    for chunk in bazi_love_ai_analysis_stream(result):
-        yield chunk
+    return StreamingResponse(bazi_love_ai_analysis_stream(result), media_type="text/event-stream")

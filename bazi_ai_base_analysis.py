@@ -52,4 +52,5 @@ def bazi_base_ai_analysis_stream(bazi_info):
     system_prompt = "你是一个专业的八字分析师,请根据提供的八字信息进行全面、专业、详细的分析。"
     
     for chunk in glm4_model.stream_chat(prompt, system_prompt):
+        print(chunk)
         yield chunk
