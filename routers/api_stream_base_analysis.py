@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Form
 from fastapi.responses import StreamingResponse
 from bazi_need import get_bazi_need
-from bazi_ai_base_analysis import bazi_base_ai_analysis, bazi_base_ai_analysis_stream
+from bazi_ai_base_analysis import bazi_base_ai_analysis_stream
 
 router = APIRouter()
 
@@ -13,5 +13,6 @@ async def bazi_base_ai_analysis_stream_endpoint(
     hour: int = Form(...),
     gender: str = Form(...),
     city: str = Form(...)):
+    print(f"Received request: year={year}, month={month}, day={day}, hour={hour}, gender={gender}, city={city}")
     result = get_bazi_need(year, month, day, hour, True, False, True if gender == "男" else False)
     return StreamingResponse(bazi_base_ai_analysis_stream(result), media_type="text/event-stream")

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>八字分析流式接口测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        form {
+            display: grid;
+            gap: 10px;
+        }
+        #result {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            min-height: 100px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>八字分析流式接口测试</h1>
+    <form id="baziForm">
+        <input type="number" id="year" name="year" placeholder="年" required>
+        <input type="number" id="month" name="month" placeholder="月" required>
+        <input type="number" id="day" name="day" placeholder="日" required>
+        <input type="number" id="hour" name="hour" placeholder="时" required>
+        <select id="gender" name="gender" required>
+            <option value="男">男</option>
+            <option value="女">女</option>
+        </select>
+        <input type="text" id="city" name="city" placeholder="城市" required>
+        <button type="submit">开始分析</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('baziForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = '正在分析...';
+
+            try {
+                const response = await fetch('/bazi_ai_base_analysis_stream', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    const chunk = decoder.decode(value);
+                    resultDiv.textContent += chunk;
+                }
+            } catch (error) {
+                resultDiv.textContent = '发生错误: ' + error.message;
+                console.error('Error:', error);
+            }
+        });
+
+        // 添加这个函数来检查 FormData 内容
+        function logFormData(formData) {
+            for (let [key, value] of formData.entries()) {
+                console.log(key, value);
+            }
+        }
+
+        // 在提交之前添加这行代码来检查 FormData
+        // logFormData(formData);
+    </script>
+</body>
+</html>
