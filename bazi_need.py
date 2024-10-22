@@ -391,7 +391,7 @@ def get_bazi_need(year:int,month:int,day:int,time:int,isSolar:bool=True,isRunYue
 
 description = '''
 
-'''
+
 parser = argparse.ArgumentParser(description=description,
                                 formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument('year', action="store", help=u'year')
@@ -413,3 +413,4 @@ result = get_bazi_need(options.year, options.month, options.day, options.time,op
 
 
 print(json.dumps(result,ensure_ascii=False))
+'''

@@ -1,6 +1,7 @@
 from ai_models.glm4 import GLM4Model
 from bazi_need import get_bazi_need
 import json
+import os
 
 glm4_model = GLM4Model("c071cdc6b53eb53e1cd1cd6ad0a5e4db.fEV7OrCxYmiqazjd")
 
@@ -29,3 +30,26 @@ def bazi_base_ai_analysis(result):
     print('-'*100)
     interpreted_result = glm4_model.chat(prompt,system_prompt)
     return interpreted_result
+
+
+def bazi_base_ai_analysis_stream(bazi_info):
+    prompt = f"""
+    请根据以下八字信息进行分析：
+    {bazi_info}
+    请从以下几个方面进行详细分析：
+    1. 八字基本信息解读
+    2. 五行分析
+    3. 日主分析
+    4. 喜用神分析
+    5. 大运流年分析
+    6. 事业运势分析
+    7. 财运分析
+    8. 健康建议
+    9. 感情运势分析
+    10. 总结和建议
+    """
+    
+    system_prompt = "你是一个专业的八字分析师,请根据提供的八字信息进行全面、专业、详细的分析。"
+    
+    for chunk in glm4_model.stream_chat(prompt, system_prompt):
+        yield chunk
