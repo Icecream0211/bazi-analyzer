@@ -270,7 +270,9 @@ def get_bazi_need(year:int,month:int,day:int,time:int,isSolar:bool=True,isRunYue
 
 
     dy_byYear = []
+    dy_tenYear = []
     for dayun in yun.getDaYun()[1:]:
+        ten_dayun = {}
         gan_ = dayun.getGanZhi()[0]
         zhi_ = dayun.getGanZhi()[1]
         fu = '*' if (gan_, zhi_) in zhus else " "
@@ -299,18 +301,23 @@ def get_bazi_need(year:int,month:int,day:int,time:int,isSolar:bool=True,isRunYue
                         jia = jia + "  --夹：" +  Zhi[( Zhi.index(zhi_) + Zhi.index(zhis[i]) )//2]
                     if abs( Zhi.index(zhi_) - Zhi.index(zhis[i]) ) == 10:
                         jia = jia + "  --夹：" +  Zhi[(Zhi.index(zhi_) + Zhi.index(zhis[i]))%12]
-                
+        
+        ten_dayun["start_age"] = dayun.getStartAge()
+        ten_dayun["gan_zhi"] = dayun.getGanZhi()
+       
         out = "{1:<4d}{2:<5s}{3} {15} {14} {13}  {4}:{5}{8}{6:{0}<6s}{12}{7}{8}{9} - {10:{0}<10s} {11}".format(
             chr(12288), dayun.getStartAge(), '', dayun.getGanZhi(),ten_deities[me][gan_], gan_,check_gan(gan_, gans), 
             zhi_, yinyang(zhi_), ten_deities[me][zhi_], zhi5_, zhi__,empty, fu, nayins[(gan_, zhi_)], ten_deities[me][zhi_]) 
+    
         gan_index = Gan.index(gan_)
         zhi_index = Zhi.index(zhi_)
         out = out + jia + get_shens(gans, zhis, gan_, zhi_,me)
-        
-        dy_byYear.append(out)
+        ten_dayun["remark"] = out
+        ten_dayun["liunian"] = []
         zhis2 = list(zhis) + [zhi_]
         gans2 = list(gans) + [gan_]
         for liunian in dayun.getLiuNian():
+            liunian_dayun = {}
             gan2_ = liunian.getGanZhi()[0]
             zhi2_ = liunian.getGanZhi()[1]
             fu2 = '*' if (gan2_, zhi2_) in zhus else " "
@@ -338,6 +345,11 @@ def get_bazi_need(year:int,month:int,day:int,time:int,isSolar:bool=True,isRunYue
                 chr(12288), liunian.getAge(), liunian.getYear(), gan2_+zhi2_,ten_deities[me][gan2_], gan2_,check_gan(gan2_, gans2), 
                 zhi2_, yinyang(zhi2_), ten_deities[me][zhi2_], zhi6_, zhi__,empty, fu2, nayins[(gan2_, zhi2_)], ten_deities[me][zhi2_]) 
             
+            liunian_dayun["age"] = liunian.getAge()
+            liunian_dayun["year"] = liunian.getYear()
+            liunian_dayun["gan_zhi"] = liunian.getGanZhi()
+            liunian_dayun["gan_zhi_2"] = gan2_+zhi2_
+
             jia = ""
             if gan2_ in gans2:
                 for i in range(5):
@@ -362,9 +374,12 @@ def get_bazi_need(year:int,month:int,day:int,time:int,isSolar:bool=True,isRunYue
             if set('子午卯酉').issubset(all_zhis) and len(set('子午卯酉')&set(zhis)) == 2 :
                 out = out + "  四败：子午卯酉"  
             if set('辰戌丑未').issubset(all_zhis) and len(set('辰戌丑未')&set(zhis)) == 2 :
-                out = out + "  四库：辰戌丑未"             
-            dy_byYear.append(out)
-    
+                out = out + "  四库：辰戌丑未"  
+                ##result = [item.strip() for item in out.split() if item.strip()]
+                ##print(result)
+            liunian_dayun["remark"] = out
+            ten_dayun["liunian"].append(liunian_dayun)
+        dy_byYear.append(ten_dayun)
     result["liunian_dayun"] = dy_byYear
     return result
 
@@ -376,7 +391,7 @@ def get_bazi_need(year:int,month:int,day:int,time:int,isSolar:bool=True,isRunYue
 
 description = '''
 
-
+'''
 parser = argparse.ArgumentParser(description=description,
                                 formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument('year', action="store", help=u'year')
@@ -398,4 +413,3 @@ result = get_bazi_need(options.year, options.month, options.day, options.time,op
 
 
 print(json.dumps(result,ensure_ascii=False))
-'''
