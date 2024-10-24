@@ -17,3 +17,6 @@ EXPOSE 8000
 
 # 运行主 Python 程序
 CMD ["python", "main.py"]
+
+# docker build -t bazi .
+# docker run -d -p 5000:5000 
