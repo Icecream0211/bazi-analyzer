@@ -16,4 +16,4 @@ RUN pip
 EXPOSE 8000
 
 # 运行主 Python 程序
-CMD ["python", "serverapi.py"]
+CMD ["python", "main.py"]
