@@ -12,6 +12,9 @@ origins = [
     "http://127.0.0.1:3000",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
+    "https://mysticalenhancecard.vercel.app",  # 你的Vercel域名
+    "http://localhost:3000",  # 本地开发
+    "https://*.vercel.app"  # 所有Vercel子域名
 ]
 
 app.add_middleware(
