@@ -2,7 +2,7 @@ from ai_models.glm4 import GLM4Model
 from bazi_need import get_bazi_need
 import json
 
-glm4_model = GLM4Model("c071cdc6b53eb53e1cd1cd6ad0a5e4db.fEV7OrCxYmiqazjd")
+glm4_model = GLM4Model("754e9e67eb184a108e6df79c473edeae.PQehlQintzJUHPVb")
 
 def bazi_career_ai_analysis(result):
     prompt_format = f"""
